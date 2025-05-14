@@ -15,15 +15,8 @@ on:
         description: 'Github Integration Key of the Service'
         required: true
         default: ''
-        type: string
-        
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+        type: string        
+  
 jobs:
   send-pagerduty-change-event:
     runs-on: ubuntu-latest
