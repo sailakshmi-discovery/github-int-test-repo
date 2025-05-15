@@ -11,10 +11,9 @@
 on:
   workflow_call:
     inputs:
-      integration_key:
+      key:
         description: 'Github Integration Key of the Service'
-        required: true
-        default: ''
+        required: true        
         type: string        
   
 jobs:
@@ -25,9 +24,9 @@ jobs:
       - name: Print int key
         run: |
           echo "int key-----"
-          echo "${{ github.event.inputs.integration_key }}"          
+          echo "${{ github.event.inputs.key }}"          
       - name: Create a change event        
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
-          integration-key: ${{ github.event.inputs.integration_key }}
+          integration-key: ${{ github.event.inputs.key }}
       
