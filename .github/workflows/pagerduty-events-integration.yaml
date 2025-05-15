@@ -25,8 +25,7 @@ jobs:
       - name: Print int key
         run: |
           echo "int key-----"
-          echo "${{ github.event.inputs.integration_key }}"
-          done
+          echo "${{ github.event.inputs.integration_key }}"          
       - name: Create a change event        
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
