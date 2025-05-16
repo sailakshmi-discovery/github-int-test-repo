@@ -43,7 +43,7 @@ jobs:
       - name: Run python script for fetching github integration key based on the folder changed 
         id: script_output
         run: |
-          service_name=${{inputs.changed_files}}.split('/')[1]+' - High'
+          service_name=str(${{inputs.changed_files}}).split('/')[1]+' - High'
           url = "https://api.pagerduty.com/services"
           headers = {
               "Accept": "application/json",
