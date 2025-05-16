@@ -46,7 +46,7 @@ jobs:
       - name: Run python script for fetching github integration key based on the folder changed 
         id: script_output
         run: |
-          output=$(python ./scripts/python/gint-service/fetchGithubIntegration.py ${{ inputs.changed_files}}y)
+          output=$(python ./scripts/python/gint-service/fetchGithubIntegration.py ${{ inputs.changed_files}})
           echo "::set-output name=my_variable::$output"       
         
       - name: Check if previous steps failed
@@ -57,6 +57,5 @@ jobs:
       - name: Create a change event        
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
-          integration-key: ${{ steps.script_output.outputs.my_variable }}
-          custom-event: ${{ inputs.changed_files }}
+          integration-key: ${{ steps.script_output.outputs.my_variable }}        
       
