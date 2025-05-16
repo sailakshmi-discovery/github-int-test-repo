@@ -46,8 +46,7 @@ jobs:
           repository: sailakshmi-discovery/scripts
           path: gint-service
           ref: main
-          token: ${{ secrets.GH_TOKEN }}      
-      
+         
       - name: Run python script for fetching github integration key based on the folder changed 
         id: script_output
         run: |  
