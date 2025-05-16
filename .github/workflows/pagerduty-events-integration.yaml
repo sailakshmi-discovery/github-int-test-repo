@@ -33,5 +33,5 @@ jobs:
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
           integration-key: ${{ inputs.key }}
-          custom-events: ${{ inputs.changed_files }}
+          custom-event: ${{ inputs.changed_files }}
       
