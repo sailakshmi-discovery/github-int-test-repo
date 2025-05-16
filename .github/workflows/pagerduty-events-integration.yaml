@@ -28,10 +28,35 @@ jobs:
       - name: Print int key
         run: |
           echo "int key-----"
-          echo "${{ inputs.key }}"          
+          echo "${{ inputs.key }}"  
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      
+      - name: Run python script for fetching github integration key based on the folder changed 
+        id: script_output
+        run: |
+          output=$(python ./scripts/python/gint-service/fetchGithubIntegration.py ${{ inputs.changed_files}}y)
+          echo "::set-output name=my_variable::$output"       
+        
+      - name: Check if previous steps failed
+        id: check-failure
+        if: ${{ failure() }}
+        run: echo "::set-output name=failed::true"
+
       - name: Create a change event        
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
-          integration-key: ${{ inputs.key }}
+          integration-key: ${{ steps.script_output.outputs.my_variable }}
           custom-event: ${{ inputs.changed_files }}
       
