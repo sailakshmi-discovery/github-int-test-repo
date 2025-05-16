@@ -42,6 +42,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
+          pip install pandas
       
       - name: Run python script for fetching github integration key based on the folder changed 
         id: script_output
