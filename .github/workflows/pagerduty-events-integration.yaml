@@ -43,8 +43,42 @@ jobs:
       - name: Run python script for fetching github integration key based on the folder changed 
         id: script_output
         run: |
-          output=$(python sailakshmi-discovery/github-int-test-repo/scripts/python/gint-service/fetchGithubIntegration.py ${{ inputs.changed_files}})
-          echo "::set-output name=my_variable::$output"       
+          service_name=${{inputs.changed_files}}.split('/')[1]+' - High'
+          url = "https://api.pagerduty.com/services"
+          headers = {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": "Token token=u+4hg4fVR--rvQpC8PLw"
+          }
+      
+          limit = 25
+          offset = 0
+          result = []
+          while True:
+            params_list = {'offset' : offset, 'limit': limit}
+            response = requests.get(url, headers=headers, params=params_list).json()
+    
+            for service in response['services']:             
+                if service_name==service['name']:
+                    service_id=service['id']            
+                    for integration in service['integrations']:
+                        if integration['summary']=='GitHub':
+                            integration_id=integration['id']
+                            print(service_id)
+                            print(integration_id)        
+                            break   
+                                 
+                if response['more'] == True:
+                    offset = offset + limit
+                else:
+                    break
+
+   
+          url = "https://api.pagerduty.com/services/"+service_id+"/integrations/"+integration_id      
+          response = requests.get(url, headers=headers).json()              
+          integration_key=response['integration']['integration_key']
+          print(integration_key)          
+          echo "::set-output name=my_variable::$integration_key"       
         
       - name: Check if previous steps failed
         id: check-failure
