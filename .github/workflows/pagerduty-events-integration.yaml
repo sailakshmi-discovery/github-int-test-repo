@@ -14,7 +14,11 @@ on:
       key:
         description: 'Github Integration Key of the Service'
         required: true        
-        type: string        
+        type: string
+      changed_files:
+        description: 'Changed files in the service repo'
+        required: true        
+        type: string
   
 jobs:
   send-pagerduty-change-event:
@@ -29,4 +33,5 @@ jobs:
         uses: PagerDuty/pagerduty-change-events-action@master
         with:
           integration-key: ${{ inputs.key }}
+          custom-events: ${{ inputs.changed_files }}
       
